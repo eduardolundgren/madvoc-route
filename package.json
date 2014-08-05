@@ -1,0 +1,26 @@
+{
+  "name": "madvoc-route",
+  "version": "0.0.1",
+  "keywords": [
+    "jodd",
+    "madvoc",
+    "route"
+  ],
+  "author": {
+    "name": "Eduardo Lundgren",
+    "email": "edu@rdo.io",
+    "web": "http://eduardo.io",
+    "twitter": "eduardolundgren"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:eduardolundgren/madvoc-route.git"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.6",
+    "gulp-nodeunit": "0.0.5"
+  }
+}
