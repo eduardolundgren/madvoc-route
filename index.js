@@ -201,15 +201,15 @@ RouteConfigurator.RESERVED_ALIASES = [
  * @type {Array.<String>}
  */
 RouteConfigurator.VALID_HTTP_METHODS = [
+  'CONNECT',
+  'DELETE',
   'GET',
   'HEAD',
+  'OPTIONS',
+  'PATCH',
   'POST',
   'PUT',
-  'DELETE',
-  'TRACE',
-  'OPTIONS',
-  'CONNECT',
-  'PATCH'
+  'TRACE'
 ];
 
 /**
