@@ -55,7 +55,7 @@ routeConfigurator.parse(
 
 routeConfigurator.getRoutes();
 // [[actionClass=my.app.HelloAction,actionMethod='hello',alias=null,async=false,httpMethod=GET,path=/helloworld1],
-    [actionClass=my.app.HelloAction,actionMethod='hello',alias=null,async=false,httpMethod=GET,path=/helloworld2]]
+//  [actionClass=my.app.HelloAction,actionMethod='hello',alias=null,async=false,httpMethod=GET,path=/helloworld2]]
 ```
 
 #### Setup `routes.txt`
@@ -74,5 +74,5 @@ var routeConfigurator = new madvoc.RouteConfigurator('routes.txt');
 
 routeConfigurator.getRoutes();
 // [[actionClass=my.app.HelloAction,actionMethod='hello',alias=null,async=false,httpMethod=GET,path=/helloworld1],
-    [actionClass=my.app.HelloAction,actionMethod='hello',alias=null,async=false,httpMethod=GET,path=/helloworld2]]
+//  [actionClass=my.app.HelloAction,actionMethod='hello',alias=null,async=false,httpMethod=GET,path=/helloworld2]]
 ```
