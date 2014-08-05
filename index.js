@@ -293,7 +293,7 @@ RouteConfigurator.prototype.parseLine = function(line) {
     case '[':
       throw new Error('Madvoc wrapper groups not supported.');
     default:
-      this.parseLineAction(line, route);
+      this.subparseLine(line, route);
   }
   return route;
 };
@@ -305,7 +305,7 @@ RouteConfigurator.prototype.parseLine = function(line) {
  *     information.
  * @protected
  */
-RouteConfigurator.prototype.parseLineAction = function(line, route) {
+RouteConfigurator.prototype.subparseLine = function(line, route) {
   var chunks = line.split(/\s+/);
 
   for (var c = 0; c < chunks.length; c++) {
