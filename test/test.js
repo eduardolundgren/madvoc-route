@@ -97,5 +97,19 @@ module.exports = {
     test.equal(routes.length, 1);
     test.equal(routes[0], '[actionClass=my.app.HelloAction,actionMethod=method,alias=my.app.HelloAction#method,async=false,httpMethod=GET,path=/helloworld]');
     test.done();
+  },
+
+  testParseRouteVariables: function(test) {
+    var routeConfigurator = new madvoc.RouteConfigurator();
+
+    routeConfigurator.parse(
+      '@package = my.app\n' +
+      '@methodName = method\n' +
+      '/helloworld @package.HelloAction#@methodName\n');
+
+    var routes = routeConfigurator.getRoutes();
+    test.equal(routes.length, 1);
+    test.equal(routes[0], '[actionClass=my.app.HelloAction,actionMethod=method,alias=my.app.HelloAction#method,async=false,httpMethod=GET,path=/helloworld]');
+    test.done();
   }
 };

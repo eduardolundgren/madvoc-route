@@ -215,14 +215,23 @@ RouteConfigurator.VALID_HTTP_METHODS = [
 /**
  * Holds the parsed routes.
  * @type {Array.<Route>}
+ * @private
  */
 RouteConfigurator.prototype.routes = null;
 
 /**
  * Holds the routes file path.
  * @type {String}
+ * @private
  */
 RouteConfigurator.prototype.routesFilepath = null;
+
+/**
+ * Holds variables from route contents.
+ * @type {Object.<String,String>}
+ * @private
+ */
+RouteConfigurator.prototype.variables = null;
 
 /**
 * Splits routes content into lines and parses madvoc route values.
@@ -269,11 +278,13 @@ RouteConfigurator.prototype.parse = function(routes) {
   }
 
   this.routes = [];
+  this.variables = {};
   for (var i = 0; i < lines.length; i++) {
     var route = this.parseLine(lines[i]);
-    // Valid routes requires a parsed path
-    if (route.getPath()) {
-      this.routes.push(route);
+    if (route) {
+      if (route.getPath()) {
+        this.routes.push(route);
+      }
     }
   }
 };
@@ -281,31 +292,35 @@ RouteConfigurator.prototype.parse = function(routes) {
 /**
  * Parses madvoc route values from line.
  * @param {String} line The line to be parsed.
- * @return {Route} route The route instance filled with parsed information.
+ * @return {!Route} route The route instance filled with parsed information.
  * @protected
  */
 RouteConfigurator.prototype.parseLine = function(line) {
   var route = new Route();
-  switch (line.charAt(0)) {
-    case '@':
-      throw new Error('Madvoc group definition not supported.');
-    case '#': break;
-    case '[':
-      throw new Error('Madvoc wrapper groups not supported.');
-    default:
-      this.subparseLine(line, route);
-  }
-  return route;
-};
 
-/**
- * Parses information from line chunk.
- * @param {String} line The line to be parsed.
- * @param {Route} route The route instance to be filled with parsed
- *     information.
- * @protected
- */
-RouteConfigurator.prototype.subparseLine = function(line, route) {
+  // variable definition
+  if (line.charAt(0) === '@') {
+    var ndx = line.indexOf('=');
+    if (ndx !== -1) {
+      var name = line.substring(1, ndx).trim();
+      var value = line.substring(ndx + 1).trim();
+      this.variables[name] = value;
+    }
+  }
+
+  // comments
+  if (line.charAt(0) === '#') {
+    return null;
+  }
+
+  // variable replacer
+  line = this.replaceVariables(line);
+
+  // defaults
+  if (line.charAt(0) === '[' && line.charAt(line.length - 1) === ']') {
+    throw new Error('Madvoc defaults not supported.');
+  }
+
   var chunks = line.split(/\s+/);
 
   for (var i = 0; i < chunks.length; i++) {
@@ -356,12 +371,28 @@ RouteConfigurator.prototype.subparseLine = function(line, route) {
       route.setAlias(chunk);
     }
   }
+
+  return route;
+};
+
+/**
+ * Replaces variables from route contents.
+ * @param {String} line
+ * @return {String} line
+ * @protected
+ */
+RouteConfigurator.prototype.replaceVariables = function(line) {
+  for (var name in this.variables) {
+    line = line.replace(new RegExp('@' + name, 'g'), this.variables[name]);
+  }
+  return line;
 };
 
 /**
  * Trim prefixes and sufixes from chunk.
  * @param {String} chunk
  * @return {String} Returns trimmed chunk.
+ * @protected
  */
 RouteConfigurator.prototype.trimPrefixAndSuffix = function(chunk) {
   for (var i = 0; i < RouteConfigurator.IGNORED_FIXES.length; i += 2) {
@@ -380,6 +411,7 @@ RouteConfigurator.prototype.trimPrefixAndSuffix = function(chunk) {
  * tokens such as "->" to be captured as an aliases.
  * @param {String} chunk
  * @return {Boolean}
+ * @protected
  */
 RouteConfigurator.prototype.isValidAlias = function(chunk) {
   return RouteConfigurator.RESERVED_ALIASES.indexOf(chunk) === -1;
@@ -389,15 +421,12 @@ RouteConfigurator.prototype.isValidAlias = function(chunk) {
  * Checks whether the passed chunk is a valid HTTP method.
  * @param {String} chunk
  * @return {Boolean}
+ * @protected
  */
 RouteConfigurator.prototype.isValidHttpMethod = function(chunk) {
   return RouteConfigurator.VALID_HTTP_METHODS.indexOf(chunk) > -1;
 };
 
-/**
- * Gets the parsed routes.
- * @return {Array.<Route>}
- */
 RouteConfigurator.prototype.getRoutes = function() {
   return this.routes;
 };
