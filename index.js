@@ -299,7 +299,7 @@ RouteConfigurator.prototype.parseLine = function(line) {
 };
 
 /**
- * Parses action class and method information from line.
+ * Parses information from line chunk.
  * @param {String} line The line to be parsed.
  * @param {Route} route The route instance to be filled with parsed
  *     information.
@@ -308,8 +308,8 @@ RouteConfigurator.prototype.parseLine = function(line) {
 RouteConfigurator.prototype.subparseLine = function(line, route) {
   var chunks = line.split(/\s+/);
 
-  for (var c = 0; c < chunks.length; c++) {
-    var chunk = this.trimPrefixAndSuffix(chunks[c]);
+  for (var i = 0; i < chunks.length; i++) {
+    var chunk = this.trimPrefixAndSuffix(chunks[i]);
 
     // action path (starts with '/')
     if (chunk.charAt(0) === '/') {
