@@ -26,7 +26,7 @@ module.exports = {
       '/helloworld HelloAction\n' +
       '/helloworld HelloAction#method\n' +
       '/helloworld my.app.HelloAction#method\n' +
-      '/helloworld my.app.HelloAction#method alias\n');
+      '/helloworld my.app.HelloAction#method /alias\n');
 
     var routes = routeConfigurator.getRoutes();
     test.equal(routes.length, 5);
@@ -34,7 +34,7 @@ module.exports = {
     test.equal(routes[1], '[actionClass=null,actionMethod=null,alias=HelloAction,async=false,httpMethod=GET,path=/helloworld]');
     test.equal(routes[2], '[actionClass=HelloAction,actionMethod=method,alias=HelloAction#method,async=false,httpMethod=GET,path=/helloworld]');
     test.equal(routes[3], '[actionClass=my.app.HelloAction,actionMethod=method,alias=my.app.HelloAction#method,async=false,httpMethod=GET,path=/helloworld]');
-    test.equal(routes[4], '[actionClass=my.app.HelloAction,actionMethod=method,alias=alias,async=false,httpMethod=GET,path=/helloworld]');
+    test.equal(routes[4], '[actionClass=my.app.HelloAction,actionMethod=method,alias=/alias,async=false,httpMethod=GET,path=/helloworld]');
     test.done();
   },
 
