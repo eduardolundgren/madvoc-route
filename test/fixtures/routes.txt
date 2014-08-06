@@ -1,4 +1,4 @@
 # comments
 GET /helloworld my.app.HelloAction#world
-/helloworld my.app.HelloAction#world
+`/helloworld` "my.app.HelloAction#world"
 dulcedeletche

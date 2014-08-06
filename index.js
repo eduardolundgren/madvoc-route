@@ -309,63 +309,71 @@ RouteConfigurator.prototype.subparseLine = function(line, route) {
   var chunks = line.split(/\s+/);
 
   for (var c = 0; c < chunks.length; c++) {
-    var chunk = chunks[c];
-    // detect pre/suf-fixes, remove them
-    for (var i = 0; i < RouteConfigurator.IGNORED_FIXES.length; i += 2) {
-      var left = RouteConfigurator.IGNORED_FIXES[i];
-      var right = RouteConfigurator.IGNORED_FIXES[i + 1];
+    var chunk = this.trimPrefixAndSuffix(chunks[c]);
 
-      if ((chunk.charAt(0) === left) && (chunk.charAt(chunk.length - 1) === right)) {
-        chunk = chunk.slice(left.length, -right.length);
-        break;
-      }
-
-      switch (chunk.charAt(0)) {
-        // action path (starts with '/')
-        case '/':
-          route.setPath(chunk);
-          continue;
-        case '@':
-          throw new Error('Madvoc wrapper groups not supported.');
-        // flag (starts with '#')
-        case '#':
-          var flag = chunk.substring(1);
-          if (flag === 'async') {
-            route.setAsync(true);
-          }
-          continue;
-        default:
-          // class#method (has '#')
-          if (chunk.indexOf('#') > 0) {
-            var names = chunk.split('#');
-            if (names.length !== 2) {
-              continue;
-            }
-            route.setActionClass(names[0]);
-            route.setActionMethod(names[1]);
-          }
-
-          // class name (ends with ".class")
-          if (chunk.slice(-6) === '.class') {
-            var className = chunk.slice(0, -6);
-            route.setActionClass(className);
+    switch (chunk.charAt(0)) {
+      // action path (starts with '/')
+      case '/':
+        route.setPath(chunk);
+        continue;
+      case '@':
+        throw new Error('Madvoc wrapper groups not supported.');
+      // flag (starts with '#')
+      case '#':
+        var flag = chunk.substring(1);
+        if (flag === 'async') {
+          route.setAsync(true);
+        }
+        continue;
+      default:
+        // class#method (has '#')
+        if (chunk.indexOf('#') > 0) {
+          var names = chunk.split('#');
+          if (names.length !== 2) {
             continue;
           }
+          route.setActionClass(names[0]);
+          route.setActionMethod(names[1]);
+        }
 
-          // http method
-          if (this.isValidHttpMethod(chunk)) {
-            route.setHttpMethod(chunk);
-            continue;
-          }
-
-          // last remaining chunk is an alias
-          if (this.isValidAlias(chunk)) {
-            route.setAlias(chunk);
-          }
+        // class name (ends with ".class")
+        if (chunk.slice(-6) === '.class') {
+          var className = chunk.slice(0, -6);
+          route.setActionClass(className);
           continue;
-      }
+        }
+
+        // http method
+        if (this.isValidHttpMethod(chunk)) {
+          route.setHttpMethod(chunk);
+          continue;
+        }
+
+        // last remaining chunk is an alias
+        if (this.isValidAlias(chunk)) {
+          route.setAlias(chunk);
+        }
+        continue;
+    }
+
+  }
+};
+
+/**
+ * Trim prefixes and sufixes from chunk.
+ * @param {String} chunk
+ * @return {String} Returns trimmed chunk.
+ */
+RouteConfigurator.prototype.trimPrefixAndSuffix = function(chunk) {
+  for (var i = 0; i < RouteConfigurator.IGNORED_FIXES.length; i += 2) {
+    var left = RouteConfigurator.IGNORED_FIXES[i];
+    var right = RouteConfigurator.IGNORED_FIXES[i + 1];
+    if (chunk.charAt(0) === left && chunk.charAt(chunk.length - 1) === right) {
+      chunk = chunk.slice(left.length, -right.length);
+      break;
     }
   }
+  return chunk;
 };
 
 /**
