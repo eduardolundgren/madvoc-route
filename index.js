@@ -38,7 +38,7 @@ Route.prototype.async = false;
  * Holds the router http method value.
  * @type {String}
  */
-Route.prototype.httpMethod = 'GET';
+Route.prototype.httpMethod = null;
 
 /**
  * Holds the router path value.

@@ -14,7 +14,7 @@ module.exports = {
     var routes = routeConfigurator.getRoutes();
     test.equal(routes.length, 2);
     test.equal(routes[0], '[actionClass=my.app.HelloAction,actionMethod=world,alias=my.app.HelloAction#world,async=false,httpMethod=GET,path=/helloworld]');
-    test.equal(routes[1], '[actionClass=my.app.HelloAction,actionMethod=world,alias=my.app.HelloAction#world,async=false,httpMethod=GET,path=/helloworld]');
+    test.equal(routes[1], '[actionClass=my.app.HelloAction,actionMethod=world,alias=my.app.HelloAction#world,async=false,httpMethod=null,path=/helloworld]');
     test.done();
   },
 
@@ -30,11 +30,11 @@ module.exports = {
 
     var routes = routeConfigurator.getRoutes();
     test.equal(routes.length, 5);
-    test.equal(routes[0], '[actionClass=null,actionMethod=null,alias=null,async=true,httpMethod=GET,path=/helloworld]');
-    test.equal(routes[1], '[actionClass=null,actionMethod=null,alias=HelloAction,async=false,httpMethod=GET,path=/helloworld]');
-    test.equal(routes[2], '[actionClass=HelloAction,actionMethod=method,alias=HelloAction#method,async=false,httpMethod=GET,path=/helloworld]');
-    test.equal(routes[3], '[actionClass=my.app.HelloAction,actionMethod=method,alias=my.app.HelloAction#method,async=false,httpMethod=GET,path=/helloworld]');
-    test.equal(routes[4], '[actionClass=my.app.HelloAction,actionMethod=method,alias=/alias,async=false,httpMethod=GET,path=/helloworld]');
+    test.equal(routes[0], '[actionClass=null,actionMethod=null,alias=null,async=true,httpMethod=null,path=/helloworld]');
+    test.equal(routes[1], '[actionClass=null,actionMethod=null,alias=HelloAction,async=false,httpMethod=null,path=/helloworld]');
+    test.equal(routes[2], '[actionClass=HelloAction,actionMethod=method,alias=HelloAction#method,async=false,httpMethod=null,path=/helloworld]');
+    test.equal(routes[3], '[actionClass=my.app.HelloAction,actionMethod=method,alias=my.app.HelloAction#method,async=false,httpMethod=null,path=/helloworld]');
+    test.equal(routes[4], '[actionClass=my.app.HelloAction,actionMethod=method,alias=/alias,async=false,httpMethod=null,path=/helloworld]');
     test.done();
   },
 
@@ -50,11 +50,11 @@ module.exports = {
 
     var routes = routeConfigurator.getRoutes();
     test.equal(routes.length, 5);
-    test.equal(routes[0], '[actionClass=null,actionMethod=null,alias=null,async=true,httpMethod=GET,path=/helloworld/${bar:regex}.html]');
-    test.equal(routes[1], '[actionClass=null,actionMethod=null,alias=HelloAction,async=false,httpMethod=GET,path=/helloworld/${bar:regex}.html]');
-    test.equal(routes[2], '[actionClass=HelloAction,actionMethod=method,alias=HelloAction#method,async=false,httpMethod=GET,path=/helloworld/${bar:regex}.html]');
-    test.equal(routes[3], '[actionClass=my.app.HelloAction,actionMethod=method,alias=my.app.HelloAction#method,async=false,httpMethod=GET,path=/helloworld/${bar:regex}.html]');
-    test.equal(routes[4], '[actionClass=my.app.HelloAction,actionMethod=method,alias=alias,async=false,httpMethod=GET,path=/helloworld/${bar:regex}.html]');
+    test.equal(routes[0], '[actionClass=null,actionMethod=null,alias=null,async=true,httpMethod=null,path=/helloworld/${bar:regex}.html]');
+    test.equal(routes[1], '[actionClass=null,actionMethod=null,alias=HelloAction,async=false,httpMethod=null,path=/helloworld/${bar:regex}.html]');
+    test.equal(routes[2], '[actionClass=HelloAction,actionMethod=method,alias=HelloAction#method,async=false,httpMethod=null,path=/helloworld/${bar:regex}.html]');
+    test.equal(routes[3], '[actionClass=my.app.HelloAction,actionMethod=method,alias=my.app.HelloAction#method,async=false,httpMethod=null,path=/helloworld/${bar:regex}.html]');
+    test.equal(routes[4], '[actionClass=my.app.HelloAction,actionMethod=method,alias=alias,async=false,httpMethod=null,path=/helloworld/${bar:regex}.html]');
     test.done();
   },
 
@@ -95,7 +95,7 @@ module.exports = {
 
     var routes = routeConfigurator.getRoutes();
     test.equal(routes.length, 1);
-    test.equal(routes[0], '[actionClass=my.app.HelloAction,actionMethod=method,alias=my.app.HelloAction#method,async=false,httpMethod=GET,path=/helloworld]');
+    test.equal(routes[0], '[actionClass=my.app.HelloAction,actionMethod=method,alias=my.app.HelloAction#method,async=false,httpMethod=null,path=/helloworld]');
     test.done();
   },
 
@@ -109,7 +109,7 @@ module.exports = {
 
     var routes = routeConfigurator.getRoutes();
     test.equal(routes.length, 1);
-    test.equal(routes[0], '[actionClass=my.app.HelloAction,actionMethod=method,alias=my.app.HelloAction#method,async=false,httpMethod=GET,path=/helloworld]');
+    test.equal(routes[0], '[actionClass=my.app.HelloAction,actionMethod=method,alias=my.app.HelloAction#method,async=false,httpMethod=null,path=/helloworld]');
     test.done();
   }
 };
