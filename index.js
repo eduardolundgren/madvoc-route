@@ -2,6 +2,7 @@
 
 var fs = require('fs');
 var path = require('path');
+var RouteMacroManager = require('./lib/RouteMacroManager');
 
 /**
  * Route model class.
@@ -458,3 +459,4 @@ RouteConfigurator.prototype.setRoutesFilepath = function(routesFilepath) {
 
 module.exports.Route = Route;
 module.exports.RouteConfigurator = RouteConfigurator;
+module.exports.RouteMacroManager = RouteMacroManager;
