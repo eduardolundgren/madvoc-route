@@ -93,6 +93,7 @@ module.exports = {
   testCustomSeparators: function(test) {
     var macroManager = new RouteMacroManager(
       '/user/{{id$\\d+}}/{{name$[a-zA-Z]+}}/{{bio}}',
+      RouteMacroManager.PATTERN_FORMAT_REGEX,
       ['{{', '$', '}}']
     );
 
@@ -119,6 +120,33 @@ module.exports = {
       JSON.stringify(params),
       'Extracted params should contain all expected values.'
     );
+
+    test.done();
+  },
+
+  testWildcardFormat: function(test) {
+    var macroManager = new RouteMacroManager(
+      '/scripts/${script:*.js}',
+      RouteMacroManager.PATTERN_FORMAT_WILDCARD
+    );
+
+    test.ok(!macroManager.match('/scripts'), 'Route shouldn\'t match');
+    test.ok(!macroManager.match('/scripts/myscript.java'), 'Route shouldn\'t match');
+    test.ok(macroManager.match('/scripts/myscript.js'), 'Route should match');
+
+    test.done();
+  },
+
+  testGlobFormat: function(test) {
+    var macroManager = new RouteMacroManager(
+      '/scripts/${script:???.js}',
+      RouteMacroManager.PATTERN_FORMAT_BASH_GLOB
+    );
+
+    test.ok(!macroManager.match('/scripts'), 'Route shouldn\'t match');
+    test.ok(!macroManager.match('/scripts/myscript.java'), 'Route shouldn\'t match');
+    test.ok(!macroManager.match('/scripts/myscript.js'), 'Route shouldn\'t match');
+    test.ok(macroManager.match('/scripts/abc.js'), 'Route should match');
 
     test.done();
   }

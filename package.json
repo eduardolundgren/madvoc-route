@@ -19,6 +19,9 @@
   "scripts": {
     "test": "gulp test"
   },
+  "dependencies": {
+    "glob-to-regexp": "0.0.1"
+  },
   "devDependencies": {
     "gulp": "^3.8.6",
     "gulp-nodeunit": "0.0.5"
